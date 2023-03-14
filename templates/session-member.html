@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Video Conference</title>
+        <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Overpass:wght@300;500&family=Poppins:wght@400;500&display=swap');
+
+
+            *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins' ,sans-serif;
+}
+.header{
+    width: 100%;
+    height: 100vh;
+    background: #ffffff;
+    position: relative;
+}
+nav{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background: #6C63FF;
+    width: 120px;
+}
+nav .logo{
+    width: 56px;
+    display: block;
+    margin: auto;
+    cursor: pointer;
+}
+nav ul{
+    margin-top: 160px;
+}
+nav ul li{
+    list-style: none;
+}
+nav ul li img{
+    width: 50px;
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    cursor: pointer;
+    opacity: 0.5;
+    border-radius: 10px;
+    transition: opacity 0.5s, background 0.5s;
+}
+nav ul li img:hover{
+    opacity: 1;
+    background: #f3f3f3;
+}
+.active{
+    opacity: 1;
+    background: #f3f3f3;
+}
+.container{
+    margin-left: 120px;
+    padding: 0 2.5%;
+}
+.top-icons{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 25px 0;
+}
+.top-icons img{
+    width: 25px;
+    margin-left: 40px;
+    cursor: pointer;
+}
+.row{
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+.col-1{
+    flex-basis: 65%;
+}
+.col-2{
+    flex-basis: 33%;
+}
+.host-img{
+    width: 100%;
+    border-radius: 2%;
+}
+.controls{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background-color: #6C63FF;
+}
+.controls img{
+    width: 40px;
+    margin: 20px 10px;
+    cursor: pointer;
+    transition: transform 0.5s;
+}
+.controls .call-icon{
+    width: 70px;
+}
+.controls img:hover{
+    transform: translateY(-10px);
+}
+.joined{
+    background: #f3f3f3;
+    border-radius: 15px;
+    padding: 30px 40px 50px;
+    color: #fff;
+}
+.joined div{
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-gap: 20px;
+}
+.joined img{
+    width: 100%;
+    border-radius: 10%;
+    cursor: pointer;
+}
+
+.joined p{
+    color: #6C63FF;
+}
+
+.invite p{
+    color: #6C63FF;
+}
+.invite{
+    margin-top: 10px;
+    background: #f3f3f3;
+    border-radius: 15px;
+    padding: 30px 40px 50px;
+    color: #fff;
+}
+.invite img{
+    margin-top: 20px;   
+    width: 50px;
+    margin-left: 5px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.vdo{
+    background-color: black;
+    margin: 10px;
+    border-radius: 10px;
+}
+        </style>
+    </head>
+    <body>
+       <div class="header" >
+        <nav>
+            <img src="{% static 'img/target.png' %}" class="logo">
+            <ul>
+                <li><img src="{% static 'img/live.png' %}"></li>
+                <li><img src="{% static 'img/video.png' %}"></li>
+                <li><img src="{% static 'img/message.png' %}"></li>
+                <li><img src="{% static 'img/notification.png' %}"></li>
+                <li><img src="{% static 'img/users.png' %}"></li>
+                <li><img src="{% static 'img/live.png' %}"></li>
+                <li><img src="{% static 'img/setting.png' %}"></li>
+            </ul>
+            
+        </nav>
+        <div class="container">
+            <div class="top-icons">
+                <img src="{% static 'img/search.png' %}">
+                <img src="{% static 'img/menu.png' %}">
+            </div>
+            <div class="row">
+                <div class="col-1">
+                    <!-- <img src="{% static 'img/image.png'%}" class="host-img"> -->
+                    <div class="vdo">
+                        <video id="video" width="1000" height="700" autoplay muted></video>
+                    </div>
+                    
+
+                    <div class="controls">
+                        <img src="{% static 'img/chat.png' %}">
+                        <img src="{% static 'img/disconnect.png' %}">
+                        <img src="{% static 'img/call.png' %}" class="call-icon">
+                        <img src="{% static 'img/mic.png' %}">
+                        <img src="{% static 'img/cast.png' %}">
+                    </div>
+                </div>a
+                <div class="col-2">
+                    <div class="joined">
+                        <p>Your facial readings</p>
+                        <div>
+                            
+                        </div>
+                    </div>
+                    <div class="invite">
+                        <p>Your Current Stats</p>
+                        <div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       </div>
+
+
+
+       <script>
+        const video = document.getElementById('video')
+
+Promise.all([
+  faceapi.nets.tinyFaceDetector.loadFromUri("{% static  '/models'%}"),
+  faceapi.nets.faceLandmark68Net.loadFromUri("{% static  '/models'%}"),
+  faceapi.nets.faceRecognitionNet.loadFromUri("{% static  '/models'%}"),
+  faceapi.nets.faceExpressionNet.loadFromUri("{% static  '/models'%}")
+]).then(startVideo)
+
+function startVideo() {
+  navigator.getUserMedia(
+    { video: {} },
+    stream => video.srcObject = stream,
+    err => console.error(err)
+  )
+}
+
+video.addEventListener('play', () => {
+  const canvas = faceapi.createCanvasFromMedia(video)
+  document.body.append(canvas)
+  const displaySize = { width: video.width, height: video.height }
+  faceapi.matchDimensions(canvas, displaySize)
+  setInterval(async () => {
+    const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
+    const resizedDetections = faceapi.resizeResults(detections, displaySize)
+    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
+    // faceapi.draw.drawDetections(canvas, resizedDetections)
+    faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)
+    // faceapi.draw.drawFaceExpressions(canvas, resizedDetections)
+  }, 100)
+})
+       </script>
+    </body>
+</html>

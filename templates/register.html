@@ -1,0 +1,203 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+            @import url('https://fonts.googleapis.com/css2?family=Overpass:wght@300;500&family=Poppins:wght@400;500&display=swap');
+
+        
+        *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins',sans-serif;
+}
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+.container{
+    max-width: 650px;
+    padding: 28px;
+    margin: 0 28px;
+    box-shadow: 0 15px 20px #abb289;
+}
+h2{
+    font-size: 26px;
+    font-weight: 600;
+    text-align: left;
+    color: #2f4f4f;
+    padding-bottom: 8px;
+    border-bottom: 1px solid silver;
+}
+.content{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+.input-box{
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+    padding-bottom: 15px;
+}
+.input-box:nth-child(2n){
+    justify-content: end;
+}
+.input-box label, .gender-title{
+    width: 95%;
+    color: #2f4f4f;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.alert-info{
+    color: red;
+}
+
+.gender-title{
+    font-size: 16px;
+}
+.input-box input{
+    height: 40px;
+    width: 95%;
+    padding: 0 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+.input-box input:is(:focus, :valid){
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+.gender-category{
+    color: grey;
+}
+.gender-category label{
+    padding: 0 20px 0 5px;
+    font-size: 14px;
+}
+.gwnder-category label, .gender-category input{
+    cursor: pointer;
+}
+.alert p{
+    font-size: 14px;
+    font-style: italic;
+    color: dimgray;
+    margin: 5px 0;
+    padding: 10px;
+}
+.alert a{
+    text-decoration: none;
+}
+.alert a:hover{
+    text-decoration: underline;
+}
+.button-container button{
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    display: block;
+    font-size: 20px;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    background-image: linear-gradient(to right, #6C63FF,#403d7a);
+}
+.button-container button:hover{
+    background-image: linear-gradient(to right, #6C63FF,#403d7a);
+}
+@media(max-width:600px){
+    .container{
+        min-width: 280px;
+    }
+    .content{
+        max-height: 380px;
+        overflow: auto;
+    }
+    .input-box{
+        margin-bottom: 12px;
+        width: 100%;
+    }
+    .input-box:nth-child(2n){
+        justify-content: space-between; 
+    }
+    .gender-category{
+        display: flex;
+        justify-content: space-between;
+        width: 60%;
+    }
+    .content::-webkit-scrollbar{
+        width: 0;
+    } }
+    
+
+
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <form  method="POST">
+            {% csrf_token %}
+            <h2>Registration</h2>
+            <div class="content">
+                <!-- <div class="input-box">
+                    <label for="name"> Name</label>
+                    <input type="text"placeholder="Enter Full Name" name="name" required>
+                </div> -->
+                <div class="input-box">
+                    <label for="username">username</label>
+                    <input type="text"placeholder="Enter username" name="uname" required>
+                </div>
+                <div class="input-box">
+                <label for="Email">Email</label>
+                <input type="text"placeholder="Enter your valid email address" name="email" required>
+            </div>
+            <!-- <div class="input-box">
+                <label for="phonenumber">Phone number</label>
+                <input type="text"placeholder="Enter phone number " name="phoneNumber" required>
+            </div> -->
+            <div class="input-box">
+                <label for="password">password</label>
+                <input type="text"placeholder="Enter new password" name="password" required>
+            </div>
+            <div class="input-box">
+                <label for="Cpassword">Confirm password</label>
+                <input type="password"placeholder="Confirm password" name="confirmpassword" required>
+            </div>
+            <div class="input-box">
+                <label for="age">Age</label>
+                <input type="number"placeholder="age" name="age" required>
+            </div>
+            <spam class="gender-title">Gender</spam>
+            <div class="gender-category">
+                <input type="radio" name="gender" id="male" value="male">
+                <label for="gender">Male</label>
+                <input type="radio" name="gender" id="female"value="female">
+                <label for="gender">Female</label>
+                <input type="radio" name="gender" id="other"value="other">
+                <label for="gender">other</label>
+            </div>
+            </div>
+            <div class="alert">
+                <p>By clicking Sign Up, you agree to our <a href="#">Privacy Policy,</a> and <a
+                href="#">Cookies Policy</a> You may recieve SMS notification from us and can opt out a any time.</p> 
+            </div>
+            <div class="button-container">
+                <button type="submit">Registration</button>
+            </div>
+        </form>
+        {% for message in messages %}
+        <div class="alert alert-info">{{message}}</div>
+        {% endfor %}
+    </div>
+    
+
+</body>
+</html>

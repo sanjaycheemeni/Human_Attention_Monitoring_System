@@ -1,0 +1,361 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Your Session</title>
+      <meta name="viewport" content="width=device-width">
+     <style>
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.header{
+    width: 100%;
+    height: 100vh;
+    background: #f8f8f8;
+    position: relative;
+}
+
+nav{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background:  #605ec0;
+    width: 128px;
+    padding: 10px 0;
+    
+}
+
+nav .logo{
+    width: 56px;
+    display: block;
+    margin: auto;
+    cursor: pointer;
+
+}
+
+nav ul{
+    margin-top: 160px;
+
+}
+
+nav ul li{
+    list-style: none;
+}
+nav ul li img{
+    width: 50px;   
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: opacity 0.5s,background 0.4s;
+}
+
+nav ul li img:hover{
+    opacity: 1;
+    background: #4b49ac;
+
+}
+
+.active{
+    opacity: 1;
+    background: #262566;
+
+}
+
+.container{
+    margin-left: 120px;
+    padding: 0 2.5%; 
+}
+.top-icons{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 25px 0;
+
+}
+
+.top-icons  img{
+    color: #262566;
+    width: 25px;
+    margin-left: 40px;
+    cursor: pointer;
+}
+.row{
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+.col-1{
+    flex-basis: 80%;
+    /* background-color: red; */
+    background-color: rgb(231, 231, 231);
+    width: 100%;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.col-2{
+    flex-basis: 15%;
+    /* background-color: green; */
+    background-color: rgb(231, 231, 231);
+    border-radius: 15px;
+    padding: 20px;
+    
+} 
+.ses-title{
+    color: #262566;
+    font-family: 'Poppins', sans-serif;
+}
+.det-panel{
+    padding: 15px;
+
+}
+
+.det-panel h4{
+
+
+    color: rgb(41, 41, 41);
+    font-family: 'Poppins', sans-serif;
+    margin: 9px;
+}
+
+.list{
+    /* display: block;
+    /* background-color: red; */
+    /* background-color: #262566; 
+    justify-content: center;
+    align-items: center; */
+
+}
+
+.list-item{
+    display: flex;
+    position: relative;
+    background-color: #d3c96e;
+    padding: 4px;
+    width: 100%;
+    justify-content: center;
+    border-radius: 5px;
+    margin: 8px;
+    font-size: .9rem;
+    font-family: 'Poppins' , sans-serif;
+    font-weight:600;
+    /* font-style: italic; */
+}
+
+.user-list{
+    /* background-color: red; */
+    padding: 8px;
+    width: 100%;
+    margin: auto;    
+}
+
+.list-item-user{
+    margin: 5px;
+    background-color: #dbdbdb;
+    border-radius: 8px;
+    padding: 25px;
+    justify-content: center;
+    align-items: center;
+}
+.ita {
+    width: 74%;
+    display: inline-block;
+}
+
+.itb {
+    width: 25%;
+    display: inline-block;
+}
+
+.its {
+    display: inline-block;
+}
+
+.pr-cn h4{
+    display: inline-block;
+    color: #c2572c;
+}
+
+.mr-cn h4{
+    display: inline-block;
+    color: #5250cf;
+}
+
+.gd-cn h4{
+    display: inline-block;
+    color: #0e8829;
+}
+
+
+.itbt{
+    background-color: rgb(255, 190, 190);
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.itbt .end{
+    color: #aa0000;
+}
+
+     </style>
+   </head>
+   <body>
+      <div class="header">
+         
+         <nav>
+            <img src="{%static 'img/target.png'%}" class="logo">
+            <ul>
+               <li> <img src="images/live.png" class="active"> </li>
+               <li> <img src="images/video.png"> </li>
+               <li> <img src="images/message.png"> </li>
+               <li> <img src="images/notification.png"> </li>
+               <li> <img src="images/users.png"> </li>
+               <li> <img src="images/setting.png"> </li>
+            </ul>
+         </nav>
+         <div class="container">
+            <div class="top-icons">
+               <img src="images/search.png" alt="">
+               <img src="images/menu.png" alt="">
+            </div>
+            <div class="row">
+
+
+               <div class="col-1">
+                  <h2 class="ses-title">Session Details</h2>
+                  <div class="det-panel">
+                     <h4>Host : Sanjaycheemeni@gmail.com</h4>
+                     <h4>Time : 27 FEB 2023, 10:12 am</h4>
+
+                     <div class="user-list">
+
+
+                        
+
+                       
+                         <div class="list-item-user">
+                              <div class="ita">
+                                 <h3>Sanjay</h3>
+                              </div>
+
+                              <div class="itb">
+                                 <div class="its">
+                                    <div class="pr-cn"><h4>Concentration : Poor </h4></div>
+                                 </div>
+                                 <div class="itbt">
+                                    <h5 class="end">
+                                       Notify User
+                                    </h5>
+                                 </div>
+                              </div>
+                         </div>
+
+                         <div class="list-item-user">
+                           <div class="ita">
+                              <h3>Adarsh</h3>
+                           </div>
+
+                           <div class="itb">
+                              <div class="its">
+                                 <div class="mr-cn"><h4>Concentration : Good </h4></div>
+                              </div>
+                              <div class="itbt">
+                                 <h5 class="end">
+                                    Notify User
+                                 </h5>
+                              </div>
+                           </div>
+                      </div>
+                      <div class="list-item-user">
+                        <div class="ita">
+                           <h3>Aishu</h3>
+                        </div>
+
+                        <div class="itb">
+                           <div class="its">
+                              <div class="pr-cn"><h4>Concentration : Poor </h4></div>
+                           </div>
+                           <div class="itbt">
+                              <h5 class="end">
+                                 Notify User
+                              </h5>
+                           </div>
+                        </div>
+                   </div>
+                   <div class="list-item-user">
+                     <div class="ita">
+                        <h3>Reshmi</h3>
+                     </div>
+
+                     <div class="itb">
+                        <div class="its">
+                           <div class="mr-cn"><h4>Concentration : Good </h4></div>
+                        </div>
+                        <div class="itbt">
+                           <h5 class="end">
+                              Notify User
+                           </h5>
+                        </div>
+                     </div>
+                </div>
+                <div class="list-item-user">
+                  <div class="ita">
+                     <h3>Kiran</h3>
+                  </div>
+
+                  <div class="itb">
+                     <div class="its">
+                        <div class="gd-cn"><h4>Concentration : Great </h4></div>
+                     </div>
+                     <div class="itbt">
+                        <h5 class="end">
+                           Notify User
+                        </h5>
+                     </div>
+                  </div>
+             </div>
+
+                         
+
+
+                     </div>
+                  </div>
+               </div>
+
+
+               <div class="col-2">
+                  <h3 class="ses-log">Session log</h3>
+                  <div class="list">
+                     <div class="list-item">
+                        Adarsh joined
+                     </div>
+                     <div class="list-item">
+                        Aishu left
+                     </div>
+                     <div class="list-item">
+                        Sanjay joined
+                     </div>
+                     <div class="list-item">
+                        Reshmi joined
+                     </div>
+                     <div class="list-item">
+                        Sanjay left
+                     </div>
+                  </div>
+                  
+               </div>
+            </div>
+         </div>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>session</title>
+    <style>
+    
+    @import url('https://fonts.googleapis.com/css2?family=Overpass:wght@300;500&family=Poppins:wght@400;500&display=swap');
+
+
+    *{
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+.banner{
+    width:100%;
+    height: 100vh;
+    
+}
+
+nav{
+    display: flex;
+    align-items: center;
+    padding: 20px 8%;
+
+}
+
+nav .menu-img{
+    color:rgb(197, 197, 197);
+    width: 35px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+nav .logo{
+    /* font-family: 'poppins' 'Satisfy', cursive; */
+    font-family: 'Poppins', sans-serif;
+    margin-top: 8px;
+    color: #000;
+    width: 105px;
+    cursor: pointer; 
+
+}
+
+nav ul{
+    color: #000;
+    flex: 1;
+    text-align: right;
+}
+
+nav ul li:hover{
+    color:#6C63FF;
+
+}
+
+nav ul li{
+    display: inline-block;
+    list-style: none;
+    margin: 0 20px;
+}
+.navbar{
+    width: 85%;
+    margin:auto;
+    padding:35px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.logo{
+    width: 120px;
+    cursor: pointer;
+}
+.navbar ul li{
+    list-style: none;
+    display: inline-block;
+    margin: 0 20px;
+    position: relative;
+}
+.navbar ul li a{
+    text-decoration: none;
+    text-transform: uppercase;
+}
+.navbar ul li::after{
+    content: '';
+    height: 3px;
+    width: 0;
+    background: #009688;
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    transition: 0.5s;
+}
+.navbar ul li:hover::after{
+    width: 100%;
+}
+.content{
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    transform: translateY(-50%);
+    text-align: center;
+    color:black;
+}
+.content h1{
+    font-size: 40px;
+    margin-top: 80px;
+}
+.content p{
+    margin: 20px auto;
+    font-weight: 100;
+    line-height: 25px;
+    font-size: 18px;
+}
+button{
+    width: 200px;
+    padding: 10px 0;
+    text-align: center;
+    margin: 20px 10px;
+    border-radius: 25px;
+    font-weight: bold;
+    border: 2px solid #6C63FF;
+    background: transparent;
+    color: black;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+span{
+    background: #6C63FF;
+    height: 100%;
+    width: 0;
+    border-radius: 25px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: -1;
+    transition: 0.5s;
+}
+button:hover span{
+    width: 100%;
+}
+button:hover{
+    border: none;
+}
+
+
+a{
+    text-decoration: none;
+    color: #000000;
+
+}
+a:hover{
+    color:#6C63FF;
+}
+.input-box{
+    display: flex;
+    flex-wrap: wrap;
+    width: 10%;
+    padding-bottom: 20spx;
+}
+.input-box:nth-child(2n){
+    justify-content: end;
+}
+.input-box label, .gender-title{
+    width: 95%;
+    color: #2f4f4f;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.alert-info{
+    color: red;
+}
+
+.gender-title{
+    font-size: 16px;
+}
+.input-box input{
+    height: 40px;
+    width: 95%;
+    padding: 0 10px;
+    border-radius: 50px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+.input-box input:is(:focus, :valid){
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+.ex-ses .input-box{
+    display: inline-block;
+    margin: 5px;
+}
+
+    
+    </style>
+   
+</head>
+<body>
+    <form>
+    <div class="banner">
+        <nav>
+           
+            <img src="{% static 'img/target.png' %}" class="menu-img"/>
+            <h1 class="logo">HAMS</h1>
+            <ul>
+                <li>About</li>
+                <li><a href="/contactus/">Contact Us</a></li>
+                <li><a href="/profile/">Profile</a></li>
+                <li style="color: rgb(102, 123, 245);"><a style="color: #f00;" href="/logout/">Log Out</a></li>
+            </ul>
+        </nav>
+        <div class="content">
+            
+            <h1>Get a link that you can share</h1>
+            <p>Tap New Session to get a link that you<br> can send to people that you want to<br> meet with</p>
+       
+        <div>
+            <center>
+                <div class="input-box">
+                    <button type="button">New Session</button>
+                </div>
+                <div class="ex-ses">
+                    <div class="input-box">
+                        <input type="text"placeholder="Enter session key" name="session_key">
+                    </div>
+                    <div class="input-box">
+                        <button type="button"><span></span>JOIN</button>
+                    </div>
+                </div>
+
+
+
+            </center>
+        </div>
+    </div>
+</form>
+</body>
+</html>
