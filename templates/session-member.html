@@ -5,6 +5,9 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Video Conference</title>
+        <script  src="{% static 'face_api/face-api.min.js' %}"></script> 
+        <script  src="{% static 'face_api/script.js' %}"></script>
+        
         <style>
 
 @import url('https://fonts.googleapis.com/css2?family=Overpass:wght@300;500&family=Poppins:wght@400;500&display=swap');
@@ -27,7 +30,7 @@ nav{
     top: 0;
     left: 0;
     bottom: 0;
-    background: #6C63FF;
+    background: #e6e6e6;
     width: 120px;
 }
 nav .logo{
@@ -160,13 +163,13 @@ nav ul li img:hover{
         <nav>
             <img src="{% static 'img/target.png' %}" class="logo">
             <ul>
-                <li><img src="{% static 'img/live.png' %}"></li>
+                <!-- <li><img src="{% static 'img/live.png' %}"></li>
                 <li><img src="{% static 'img/video.png' %}"></li>
                 <li><img src="{% static 'img/message.png' %}"></li>
                 <li><img src="{% static 'img/notification.png' %}"></li>
                 <li><img src="{% static 'img/users.png' %}"></li>
                 <li><img src="{% static 'img/live.png' %}"></li>
-                <li><img src="{% static 'img/setting.png' %}"></li>
+                <li><img src="{% static 'img/setting.png' %}"></li> -->
             </ul>
             
         </nav>
@@ -190,7 +193,7 @@ nav ul li img:hover{
                         <img src="{% static 'img/mic.png' %}">
                         <img src="{% static 'img/cast.png' %}">
                     </div>
-                </div>a
+                </div>
                 <div class="col-2">
                     <div class="joined">
                         <p>Your facial readings</p>
@@ -211,38 +214,6 @@ nav ul li img:hover{
 
 
 
-       <script>
-        const video = document.getElementById('video')
-
-Promise.all([
-  faceapi.nets.tinyFaceDetector.loadFromUri("{% static  '/models'%}"),
-  faceapi.nets.faceLandmark68Net.loadFromUri("{% static  '/models'%}"),
-  faceapi.nets.faceRecognitionNet.loadFromUri("{% static  '/models'%}"),
-  faceapi.nets.faceExpressionNet.loadFromUri("{% static  '/models'%}")
-]).then(startVideo)
-
-function startVideo() {
-  navigator.getUserMedia(
-    { video: {} },
-    stream => video.srcObject = stream,
-    err => console.error(err)
-  )
-}
-
-video.addEventListener('play', () => {
-  const canvas = faceapi.createCanvasFromMedia(video)
-  document.body.append(canvas)
-  const displaySize = { width: video.width, height: video.height }
-  faceapi.matchDimensions(canvas, displaySize)
-  setInterval(async () => {
-    const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
-    const resizedDetections = faceapi.resizeResults(detections, displaySize)
-    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
-    // faceapi.draw.drawDetections(canvas, resizedDetections)
-    faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)
-    // faceapi.draw.drawFaceExpressions(canvas, resizedDetections)
-  }, 100)
-})
-       </script>
+       
     </body>
 </html>

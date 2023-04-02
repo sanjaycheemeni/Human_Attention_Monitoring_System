@@ -57,7 +57,11 @@ def userPage(request):
 
 
 def indexPage(request):
-    return render(request,'home.html')
+    if request.method == 'POST':
+        task=request.POST.get('task')
+        print(task)
+    return render(request,'test.html')
+    # return render(request,'home.html')
 
 
 def RegisterPage(request):
@@ -119,4 +123,5 @@ def logOutPage(request):
 
 @login_required(login_url='/login/')
 def curSession(request):
+    # return render(request,'face_api/index.html')
     return render(request,'session-member.html')

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Docuent</title>
+  <script defer src="{% static 'face_api/face-api.min.js' %}"></script>
+  <script defer src="{% static 'face_api/script.js' %}"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .vd-block{
+      background-color: rgb(0, 0, 0);
+      border-radius: 8px;
+    }
+
+
+    canvas {
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+  <div class="vd-block">
+    <video id="video" width="500" height="400" autoplay muted></video>
+  </div>
+
+
+   
+
+<script src="https://code.jquery.com/jquery-3.5.1.js" 
+      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
+        crossorigin="anonymous"></script>
+
+
+</body>
+</html>
