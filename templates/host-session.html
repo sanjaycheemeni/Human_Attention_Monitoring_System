@@ -5,10 +5,126 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ session_key }}</title>
+    <style>
+        .graph{
+            width: 900px;
+            height: 400px;
+
+        }
+    </style>
 </head>
 <body>
     <h4>session key : {{session_key}}</h4>
     <h5>Admin : {{ session_admin }}</h5>
-    <a href="/end-session/"><Button>END SESSION</Button></a>
+    <button onclick="getData()">get</button>
+    <div class="graph">
+        <canvas id="line-chart" width="600" height="350"></canvas>
+    </div>
+
+<script
+  src="https://code.jquery.com/jquery-3.5.0.min.js"
+  integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+  crossorigin="anonymous">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+<script>
+
+    // const key = {{session_key}};
+    // const user  = {{user}};
+
+
+    function getSeesionKey(){
+        return '{{session_key}}'
+    }
+    function getUser(){
+        return '{{user}}'
+    }
+
+    function displayData(data){
+        console.log(data.data['100'])
+    }
+
+    function successFunction(msg) {
+        //console.log(msg)
+        // console.log(msg.data['0']['id'])
+    
+        const time = [];
+        const ear = [];
+        const mr = [];
+
+
+        for (let i = 0; i < msg.data.length; i++) {
+            time[i] = i;
+            ear[i] = msg.data[i]['ear'];
+            mr[i] = msg.data[i]['mr'];
+        }
+        new Chart(document.getElementById("line-chart"), {
+          type: 'line',
+          data: {
+            labels: time,
+            datasets: [{ 
+                data: mr,
+                label: "MR",
+                borderColor: "#3e95cd",
+                fill: true
+              }, { 
+                data: ear,
+                label: "ear",
+                borderColor: "#8e5ea2",
+                fill: true
+              }, 
+            ]
+          },
+          options: {
+            title: {
+              display: true,
+              text: 'EAR and MR'
+            }
+          }
+        });
+    }
+
+    // upload to server 
+    function getData(){
+        $.ajax({
+            headers:{'X-CSRFToken':'{{ csrf_token }}'},
+            type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+            url         : '{% url 'new' %}', // the url where we want to POST
+            // data        : , // our form data
+            dataType    : 'json', // what type of data do we expect back from the server
+            success     : successFunction
+        });
+        
+        setTimeout(getData, 1000);
+}getData();
+
+// new Chart(document.getElementById("line-chart"), {
+//   type: 'line',
+//   data: {
+//     labels: time,
+//     datasets: [{ 
+//         data: mr,
+//         label: "MR",
+//         borderColor: "#3e95cd",
+//         fill: false
+//       }, { 
+//         data: [282,350,411,502,635,809,947,1402,3700,5267],
+//         label: ear,
+//         borderColor: "#8e5ea2",
+//         fill: false
+//       }, 
+//     ]
+//   },
+//   options: {
+//     title: {
+//       display: true,
+//       text: 'EAR and MR'
+//     }
+//   }
+// });
+
+
+</script>
 </body>
 </html>

@@ -9,6 +9,10 @@ class UserDataAdmin(admin.ModelAdmin):
 class SessionAdmin(admin.ModelAdmin):
     list_display=('session_key','host_id','host_name','end_time')
 
+class SessionLogAdmin(admin.ModelAdmin):
+    list_display=('session_key','user','mr','ear','time_ms')
+
+admin.site.register(sessionLog,SessionLogAdmin)
 
 admin.site.register(Session,SessionAdmin)
 

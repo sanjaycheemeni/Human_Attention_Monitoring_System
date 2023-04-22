@@ -60,32 +60,9 @@
         return '{{user}}'
     }
 
-    const form = document.getElementById('form');
-    form.addEventListener("submit", submitHandler);
-    console.log(form)
-
-    function submitHandler(e) {
-       try{
-        console.log("----")
-        e.preventDefault();
-        $.ajax({
-            type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-            url         : '{% url 'test' %}', // the url where we want to POST
-            data        : $('#form').serialize(), // our form data
-            dataType    : 'json', // what type of data do we expect back from the server
-            success     : successFunction
-        });
-       }
-       catch(err){
-        console.log(err)
-       }
-    }
 
     function successFunction(msg) {
-        if (msg.msg === 'true') {
-            alert('Success!');
-            form.reset()
-        }
+        console.log('done')
     }
 
     // upload to server 
@@ -94,16 +71,13 @@
         $.ajax({
             headers:{'X-CSRFToken':'{{ csrf_token }}'},
             type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-            url         : '', // the url where we want to POST
+            url         : '{% url 'home' %}', // the url where we want to POST
             data        : data, // our form data
             dataType    : 'json', // what type of data do we expect back from the server
             success     : successFunction
         });
 }
 
-function successFunction(){
-    alert('sucess!!')
-}
 </script>
 
 </body>

@@ -77,20 +77,19 @@ video.addEventListener('play', () => {
       // identifying emotion of user
       var emotion = findEmotion(resizedDetections[0]['expressions'])
 
-      if ( MAR > parseFloat(0.7000))  
-        console.log("yawning..!!")
-      if (left_EAR < 0.3)
-        console.log("eye blinked..!!")
+      // if ( MAR > parseFloat(0.7000))  
+      //   console.log("yawning..!!")
+      // if (left_EAR < 0.3)
+      //   console.log("eye blinked..!!")
 
       // console.log(getSeesionKey())
       //  uploooooaaaaading...
       var cur_usr =  getUser()
       var session_key = getSeesionKey()
       EAR = parseFloat((left_EAR+right_EAR)/2)
-      data = {
-          "session_key" : session_key,"user" : cur_usr,"MR" :  MAR, "EAR" : EAR
-      }
-      // uploadLog(data)
+      data = 'session_key='+session_key+'&user='+cur_usr+'&MR='+MAR+'&EAR='+EAR+''
+      // console.log(data)
+      uploadLog(data)
       
     }
     catch(err){

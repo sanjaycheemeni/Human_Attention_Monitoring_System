@@ -16,3 +16,9 @@ class Session(models.Model):
     # start_time = models.CharField(max_length=10)
     end_time = models.CharField(max_length=10)
 
+class sessionLog(models.Model):
+    session_key = models.CharField(max_length=8)
+    user = models.CharField(max_length=60)
+    mr = models.CharField(max_length=60)
+    ear = models.CharField(max_length=60)
+    time_ms = models.CharField(max_length=60)

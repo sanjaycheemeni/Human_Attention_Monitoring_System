@@ -2,14 +2,23 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
-from  .models import UserData,Session
+from  .models import UserData,Session,sessionLog
 from django.contrib.auth import logout,login
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib import messages
 import random
 from django.http import JsonResponse
+import time
+
 
 #### 
+
+
+def current_milli_time():
+    return round(time.time() * 1000)
+
+
+
 # check for session_key exist or not9999
 def isExistingSession(ses_key):
     if ses_key == '123456':
@@ -82,7 +91,13 @@ def indexPage(request):
     #     print(task)
     print(request.is_ajax())
     if request.is_ajax() and request.method == 'POST':
-        print(request.POST)
+        session_key =  request.POST.get('session_key')
+        usr =  request.POST.get('user')
+        mr =  request.POST.get('MR')
+        ear =  request.POST.get('EAR')
+        time_ms =current_milli_time()
+        data = sessionLog(session_key=session_key,user=usr,mr=mr,ear=ear,time_ms=time_ms)
+        data.save()
         return JsonResponse({
             'msg' : 'true'
         })
@@ -131,7 +146,8 @@ def mainPage(request):
     return render(request,'session-member.html')
 
 def contactUs(request):
-    return render(request,'contact_us.html')
+    return render(request,'test-ms.html')
+    # return render(request,'contact_us.html')
 
 
 
@@ -157,6 +173,9 @@ def curSession(request):
 # new session creation
 @login_required(login_url='/login/')
 def newSession(request):
+    if request.is_ajax():
+        data = list(sessionLog.objects.values())
+        return JsonResponse({'data': data})
     session_key = random.randint(111111,999999)
     admin = request.user
     data = Session(session_key=session_key,host_id=request.user.email,host_name=request.user.username,end_time="99999999")
