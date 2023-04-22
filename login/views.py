@@ -2,11 +2,22 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
-from  .models import UserData
+from  .models import UserData,Session
 from django.contrib.auth import logout,login
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib import messages
+import random
+from django.http import JsonResponse
 
+#### 
+# check for session_key exist or not9999
+def isExistingSession(ses_key):
+    if ses_key == '123456':
+        return True
+    return False
+
+
+###
 
 # Create your views here.
 def loginPage(request):
@@ -53,14 +64,29 @@ def loginPage(request):
 
 
 def userPage(request):
-    return render(request,'session.html')
+    context={}
+    if request.method =='POST':
+        context={}
+        ses_key = request.POST.get('session_key')
+        if isExistingSession(ses_key):
+            context = {'session_key' : ses_key}
+            return render(request,'member-session.html',context)
+        else:
+            context={'err_msg':'Invalid session key or Session expired...!!'}
+    return render(request,'session.html',context)
 
 
 def indexPage(request):
-    if request.method == 'POST':
-        task=request.POST.get('task')
-        print(task)
-    return render(request,'test.html')
+    # if request.method == 'POST':
+    #     task=request.POST.get('task')
+    #     print(task)
+    print(request.is_ajax())
+    if request.is_ajax() and request.method == 'POST':
+        print(request.POST)
+        return JsonResponse({
+            'msg' : 'true'
+        })
+    return render(request,'member-session.html',{'session_key' : '123456','user':'testuser'})
     # return render(request,'home.html')
 
 
@@ -81,7 +107,7 @@ def RegisterPage(request):
                 if user is not None:
                     data = UserData(user_name=uname,user_mail=mail,gender=gender,age=age,password=passw)
                     data.save()
-                    print('Data stored to DDB')
+                    print('Data stored to DDB',data)
                     return redirect('/login/')
                 else:
                     print('error')
@@ -125,3 +151,35 @@ def logOutPage(request):
 def curSession(request):
     # return render(request,'face_api/index.html')
     return render(request,'session-member.html')
+
+
+
+# new session creation
+@login_required(login_url='/login/')
+def newSession(request):
+    session_key = random.randint(111111,999999)
+    admin = request.user
+    data = Session(session_key=session_key,host_id=request.user.email,host_name=request.user.username,end_time="99999999")
+    data.save()
+    # print("Data ;",data)
+    context = { 'session_key' : session_key,
+                'session_admin':admin.username,
+                'host_name':admin.email}
+    return render(request,'host-session.html',context)
+
+
+
+
+## testingggggggggggggggggggg....
+
+
+def test(r):
+    print(r.is_ajax())
+    if r.is_ajax():
+        print(r.POST.get('name'))
+        return JsonResponse({
+            'msg' : 'true'
+        })
+    # if r.method == 'POST':
+    #     print(r.POST.get('name'))
+    return render(r,'test-ajax.html')

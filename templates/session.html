@@ -13,6 +13,14 @@
     padding: 0;
     font-family: 'Poppins', sans-serif;
 }
+body, html{
+    
+    overflow-x: hidden;
+}
+body
+{
+    position: relative;
+}
 .banner{
     width:100%;
     height: 100vh;
@@ -98,7 +106,7 @@ nav ul li{
     width: 100%;
     position: absolute;
     top: 50%;
-    left: 5%;
+    left: 0%;
     transform: translateY(-50%);
     text-align: center;
     color:black;
@@ -182,7 +190,7 @@ a:hover{
     width: 95%;
     padding: 0px 15px;
     border-radius: 50px;
-    border: 1px solid #ccc;
+    border: 1px solid #000000;
     outline: none;
     margin-left: -10px;
 
@@ -196,12 +204,18 @@ a:hover{
     margin: 5px;
 }
 
+.new-session{
+    width: 200px;
+    /* background-color: #f00; */
+}
+
     
     </style>
    
 </head>
 <body>
-    <form>
+    <form action="/session/" method="POST">
+    {% csrf_token %}
     <div class="banner">
         <nav>
            
@@ -211,7 +225,7 @@ a:hover{
                 <li>About</li>
                 <li><a href="/contactus/">Contact Us</a></li>
                 <li><a href="/profile/">Profile</a></li>
-                <li style="color: rgb(102, 123, 245);"><a style="color: #f00;" href="/logout/">Log Out</a></li>
+                <li style="color: rgb(102, 123, 245);"><a style="color: #f00;     font-weight: 600;" href="/logout/">Log Out</a></li>
             </ul>
         </nav>
         <div class="content">
@@ -221,20 +235,21 @@ a:hover{
        
         <div>
             <center>
-                <div class="input-box">
-                    <button type="button">New Session</button>
-                </div>
-                <div class="ex-ses">
+                
                     <div class="input-box">
-                        <input type="text"placeholder="Enter session key" name="session_key">
+                        <a href="/new"><button class="new-session" type="button">NEW SESSION</button></a>
                     </div>
-                    <div class="input-box">
-                        <button type="button"><span></span>JOIN</button>
+                    <div class="ex-ses">
+                        <div class="input-box">
+                            <input type="text"placeholder="Enter session key" name="session_key">
+                        </div>
+                        <div class="input-box">
+                            <a href="/session/"><button type="submit">JOIN</button></a>
+                        </div>
                     </div>
-                </div>
-
-
-
+                    <div class="ex-ses">
+                        <p style="color: #f00;">{{err_msg}}</p>
+                    </div>
             </center>
         </div>
     </div>

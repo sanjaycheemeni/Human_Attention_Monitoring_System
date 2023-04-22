@@ -1,5 +1,6 @@
 const video = document.getElementById('video')
-
+const cur_usr =  getUser()
+const session_key = getSeesionKey()
 
 Promise.all([
   faceapi.nets.tinyFaceDetector.loadFromUri('static/face_api/models'),
@@ -76,19 +77,30 @@ video.addEventListener('play', () => {
       // identifying emotion of user
       var emotion = findEmotion(resizedDetections[0]['expressions'])
 
-      // if ( MAR > parseFloat(0.7000))  
-      //   console.log("yawning..!!")
-      // if (left_EAR < 0.3)
-      //   console.log("eye blinked..!!")
+      if ( MAR > parseFloat(0.7000))  
+        console.log("yawning..!!")
+      if (left_EAR < 0.3)
+        console.log("eye blinked..!!")
 
+      // console.log(getSeesionKey())
+      //  uploooooaaaaading...
+      var cur_usr =  getUser()
+      var session_key = getSeesionKey()
+      EAR = parseFloat((left_EAR+right_EAR)/2)
+      data = {
+          "session_key" : session_key,"user" : cur_usr,"MR" :  MAR, "EAR" : EAR
+      }
+      // uploadLog(data)
       
     }
     catch(err){
       console.log('Face Reading failed...trying next frame!!')
     }
 
+
   
-  }, 100)
+    
+  }, 1000)
 })
 
 function dist(x1,y1,x2,y2){
@@ -108,3 +120,13 @@ function findEmotion(dict) {
   
   return maxKey;
 }
+
+
+// JSON.parse('{"session_key":${session_key}, "user_id":usr, "mar":, "ear":"New York"}')
+
+
+// JSON.parse('{"session_key" : "session_key",
+//                               "user_id" :${usr},
+//                               "mar" : mar,
+//                               "ear":ear, }')
+

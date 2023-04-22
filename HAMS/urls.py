@@ -29,6 +29,8 @@ urlpatterns = [
     path('profile/',views.profilePage),
     path('logout/', views.logOutPage),
     path('session/',views.userPage),
-    path('meet/',views.curSession)
+    path('meet/',views.curSession),
+    path('new/',views.newSession),
+    path('test',views.test,name='test')
 ]
 

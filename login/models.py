@@ -9,4 +9,10 @@ class UserData(models.Model):
     age = models.CharField(max_length=5)
 
 
+class Session(models.Model):
+    session_key = models.CharField(max_length=8)
+    host_id =  models.CharField(max_length=60)
+    host_name = models.CharField(max_length=60)
+    # start_time = models.CharField(max_length=10)
+    end_time = models.CharField(max_length=10)
 

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{{session_key}}</title>
+  <script defer src="{% static 'face_api/face-api.min.js' %}"></script>
+  <script defer src="{% static 'face_api/script.js' %}"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .vd-block{
+      background-color: rgb(0, 0, 0);
+      border-radius: 8px;
+    }
+
+
+    canvas {
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+  <form method="POST" action="/test" id="form">
+    {% csrf_token %}
+    <input type="text" name="name" id="#">
+    <button type="submit">Save</button>
+</form>
+  <div class="vd-block">
+    <video id="video" width="500" height="400" autoplay muted></video>
+  </div>
+
+
+   
+
+<script
+  src="https://code.jquery.com/jquery-3.5.0.min.js"
+  integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+  crossorigin="anonymous">
+</script>
+<script>
+
+    // const key = {{session_key}};
+    // const user  = {{user}};
+
+
+    function getSeesionKey(){
+        return '{{session_key}}'
+    }
+    function getUser(){
+        return '{{user}}'
+    }
+
+    const form = document.getElementById('form');
+    form.addEventListener("submit", submitHandler);
+    console.log(form)
+
+    function submitHandler(e) {
+       try{
+        console.log("----")
+        e.preventDefault();
+        $.ajax({
+            type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+            url         : '{% url 'test' %}', // the url where we want to POST
+            data        : $('#form').serialize(), // our form data
+            dataType    : 'json', // what type of data do we expect back from the server
+            success     : successFunction
+        });
+       }
+       catch(err){
+        console.log(err)
+       }
+    }
+
+    function successFunction(msg) {
+        if (msg.msg === 'true') {
+            alert('Success!');
+            form.reset()
+        }
+    }
+
+    // upload to server 
+    function uploadLog(data){
+        console.log(data)
+        $.ajax({
+            headers:{'X-CSRFToken':'{{ csrf_token }}'},
+            type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+            url         : '', // the url where we want to POST
+            data        : data, // our form data
+            dataType    : 'json', // what type of data do we expect back from the server
+            success     : successFunction
+        });
+}
+
+function successFunction(){
+    alert('sucess!!')
+}
+</script>
+
+</body>
+</html>

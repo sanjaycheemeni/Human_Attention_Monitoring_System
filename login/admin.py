@@ -6,5 +6,11 @@ from .models import *
 class UserDataAdmin(admin.ModelAdmin):
     list_display=('user_name','user_mail','gender','age','password')
 
+class SessionAdmin(admin.ModelAdmin):
+    list_display=('session_key','host_id','host_name','end_time')
+
+
+admin.site.register(Session,SessionAdmin)
 
 admin.site.register(UserData,UserDataAdmin)
+
