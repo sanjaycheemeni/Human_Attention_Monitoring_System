@@ -18,7 +18,10 @@
     <h5>Admin : {{ session_admin }}</h5>
     <button onclick="getData()">get</button>
     <div class="graph">
-        <canvas id="line-chart" width="600" height="350"></canvas>
+        <!-- <canvas id="line-chart" width="600" height="350"></canvas> -->
+        <ul>
+
+        </ul>
     </div>
 
 <script
@@ -29,6 +32,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
 <script>
+
+  // user list of current session
+  function successFunction(value){
+    console.log(value)
+  }
 
     // const key = {{session_key}};
     // const user  = {{user}};
@@ -45,47 +53,8 @@
         console.log(data.data['100'])
     }
 
-    function successFunction(msg) {
-        //console.log(msg)
-        // console.log(msg.data['0']['id'])
-    
-        const time = [];
-        const ear = [];
-        const mr = [];
 
-
-        for (let i = 0; i < msg.data.length; i++) {
-            time[i] = i;
-            ear[i] = msg.data[i]['ear'];
-            mr[i] = msg.data[i]['mr'];
-        }
-        new Chart(document.getElementById("line-chart"), {
-          type: 'line',
-          data: {
-            labels: time,
-            datasets: [{ 
-                data: mr,
-                label: "MR",
-                borderColor: "#3e95cd",
-                fill: true
-              }, { 
-                data: ear,
-                label: "ear",
-                borderColor: "#8e5ea2",
-                fill: true
-              }, 
-            ]
-          },
-          options: {
-            title: {
-              display: true,
-              text: 'EAR and MR'
-            }
-          }
-        });
-    }
-
-    // upload to server 
+ 
     function getData(){
         $.ajax({
             headers:{'X-CSRFToken':'{{ csrf_token }}'},
@@ -97,7 +66,8 @@
         });
         
         setTimeout(getData, 1000);
-}getData();
+}
+getData();
 
 // new Chart(document.getElementById("line-chart"), {
 //   type: 'line',

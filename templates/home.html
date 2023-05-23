@@ -2,7 +2,7 @@
 {% load static %}
 <html>
 <head>
-	<meta name="viewport" content="width=device-width, initiaal-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>H.A.M.S - Human Attention Monitoring System</title>
 	<!-- <link rel="stylesheet" type="text/css" href="styles.css"> -->
 
@@ -150,6 +150,12 @@ a:hover{
 
 /***************************/
     </style>
+    <script>
+        console.log('{{userStatus}}');
+        var l = document.getElementById("u");
+        console.log(l)
+
+    </script>
 
 </head>
 <body>
@@ -164,7 +170,7 @@ a:hover{
                 <li>About</li>
                 <li><a href="/contactus/">Contact Us</a></li>
                 <li><a href="/profile/">Profile</a></li>
-                <li style="color: rgb(102, 123, 245);"><a href="/login/">Sign In</a></li>
+                <li ><a href='{{link}}' style="color: {{color}};" id="u">{{userStatus}}</a></li>
             </ul>
         </nav>
 

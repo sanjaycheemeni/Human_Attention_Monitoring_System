@@ -22,3 +22,10 @@ class sessionLog(models.Model):
     mr = models.CharField(max_length=60)
     ear = models.CharField(max_length=60)
     time_ms = models.CharField(max_length=60)
+
+
+class session_members(models.Model):
+    session_key = models.CharField(max_length=8)
+    # id = models.CharField(max_length=60)
+    user = models.CharField(max_length=60)
+    permission = models.CharField(max_length=60)

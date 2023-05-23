@@ -12,6 +12,11 @@ class SessionAdmin(admin.ModelAdmin):
 class SessionLogAdmin(admin.ModelAdmin):
     list_display=('session_key','user','mr','ear','time_ms')
 
+class session_members_admin(admin.ModelAdmin):
+    list_display=('session_key','user','permission')
+
+admin.site.register(session_members,session_members_admin)
+
 admin.site.register(sessionLog,SessionLogAdmin)
 
 admin.site.register(Session,SessionAdmin)

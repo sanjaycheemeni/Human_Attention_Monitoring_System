@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import *
 from django.contrib.auth import authenticate
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
+from django.template import RequestContext
 from  .models import UserData,Session,sessionLog
 from django.contrib.auth import logout,login
 from django.contrib.auth.decorators import login_required,user_passes_test
@@ -9,14 +10,29 @@ from django.contrib import messages
 import random
 from django.http import JsonResponse
 import time
-
+from .models import session_members
 
 #### 
+def checkCurrentSession(id):
+    as_host = Session.objects.values().filter(host_id=id)
+    expired_sessions = []
+    for row in as_host:
+        # checks for already expired or not
+        if int(row['end_time']) < current_milli_time():
+            return row['session_key']
+        else:
+            expired_sessions.append(row['session_key'])
+    as_member = session_members.objects.values().filter(user=id)
+    for row in as_member:
+        if id == row['user'] and row['session_key'] not in expired_sessions:
+            return row['session_key']
 
 
 def current_milli_time():
     return round(time.time() * 1000)
 
+def isUSerHavePermission(user):
+    pass
 
 
 # check for session_key exist or not9999
@@ -78,12 +94,24 @@ def userPage(request):
         context={}
         ses_key = request.POST.get('session_key')
         if isExistingSession(ses_key):
-            context = {'session_key' : ses_key}
-            return render(request,'member-session.html',context)
+            if isUSerHavePermission(request.user):
+                context = {'session_key' : ses_key}
+                return render(request,'member-session.html',context)
         else:
             context={'err_msg':'Invalid session key or Session expired...!!'}
     return render(request,'session.html',context)
 
+def home(request):
+    val = 'Sign In'
+    link ='/login'
+    col = '#6C63FF'
+    if request.user.is_authenticated:
+        val = 'Log Out'
+        link='/logout'
+        col = '#ff1111'
+    con = {'userStatus' :val,'link':link,'color':col}
+    checkCurrentSession(request.user.email)
+    return render(request,'home.html',context=con)
 
 def indexPage(request):
     # if request.method == 'POST':
@@ -146,7 +174,11 @@ def mainPage(request):
     return render(request,'session-member.html')
 
 def contactUs(request):
-    return render(request,'test-ms.html')
+    if 'first_time' in request.COOKIES:
+        print(request.COOKIES['first_time'])
+    response = render(request,'test-ms.html',{})
+    response.set_cookie('first_time','yes',max_age=3600)
+    return response
     # return render(request,'contact_us.html')
 
 
@@ -174,9 +206,16 @@ def curSession(request):
 @login_required(login_url='/login/')
 def newSession(request):
     if request.is_ajax():
-        data = list(sessionLog.objects.values())
+        data = list(session_members.objects.values().filter(session_key=request.COOKIES['session_key']))
         return JsonResponse({'data': data})
+    
     session_key = random.randint(111111,999999)
+    if 'in_a_session' in request.COOKIES:
+        print('test1')
+        if request.COOKIES['in_a_session'] == 'TRUE':
+            print('test')
+            session_key = request.COOKIES['session_key']
+    
     admin = request.user
     data = Session(session_key=session_key,host_id=request.user.email,host_name=request.user.username,end_time="99999999")
     data.save()
@@ -184,7 +223,13 @@ def newSession(request):
     context = { 'session_key' : session_key,
                 'session_admin':admin.username,
                 'host_name':admin.email}
-    return render(request,'host-session.html',context)
+    response =  render(request,'host-session.html',context)
+    if 'in_a_session' not in request.COOKIES:
+        response.set_cookie('session_key',session_key,max_age=3600)
+        response.set_cookie('in_a_session','TRUE',max_age=3600)
+    return response
+
+
 
 
 

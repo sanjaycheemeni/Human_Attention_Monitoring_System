@@ -46,10 +46,12 @@ video.addEventListener('play', () => {
     
   
     try{
+
+      console.log(calculateBlinkRate(detections));
       
       var landmarks = resizedDetections[0]['landmarks']._positions;
 
-      //calculation of E.A.R (left eye)
+      //calculation of E.A.R (l1eft eye)
       var left_p2_p6  = parseFloat(dist(landmarks[37]._x,  landmarks[37]._y,landmarks[41]._x,  landmarks[41]._y))
       var left_p3_p5  = parseFloat(dist(landmarks[38]._x,  landmarks[38]._y,landmarks[40]._x,  landmarks[40]._y))
       var left_p1_p4  = parseFloat(dist(landmarks[36]._x,  landmarks[36]._y,landmarks[39]._x,  landmarks[39]._y))
@@ -86,7 +88,11 @@ video.addEventListener('play', () => {
       //  uploooooaaaaading...
       var cur_usr =  getUser()
       var session_key = getSeesionKey()
+
+
       EAR = parseFloat((left_EAR+right_EAR)/2)
+
+      
       data = 'session_key='+session_key+'&user='+cur_usr+'&MR='+MAR+'&EAR='+EAR+''
       // console.log(data)
       uploadLog(data)
@@ -129,3 +135,11 @@ function findEmotion(dict) {
 //                               "mar" : mar,
 //                               "ear":ear, }')
 
+function calculateBlinkRate(detections) {
+  const leftEye = detections[0].landmarks.getLeftEye();
+  const rightEye = detections[0].landmarks.getRightEye();
+  const blinkRatio = (leftEye[3].y - leftEye[0].y + rightEye[3].y - rightEye[0].y) /
+                     (2 * (leftEye[4].y - leftEye[1].y + rightEye[4].y - rightEye[1].y));
+  const blinkRate = 1 / blinkRatio;
+  return blinkRate;
+}
