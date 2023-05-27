@@ -6,24 +6,382 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ session_key }}</title>
     <style>
-        .graph{
-            width: 900px;
-            height: 400px;
+       @import url('https://fonts.googleapis.com/css2?family=Overpass:wght@300;500&family=Poppins:wght@400;500&display=swap');
 
-        }
+
+*{
+margin: 0;
+padding: 0;
+font-family: 'Poppins', sans-serif;
+}
+body, html{
+
+overflow-x: hidden;
+}
+body
+{
+position: relative;
+}
+.banner{
+width:100%;
+height: 100vh;
+
+}
+
+nav{
+display: flex;
+align-items: center;
+padding: 20px 8%;
+
+}
+
+nav .menu-img{
+color:rgb(197, 197, 197);
+width: 35px;
+margin-right: 20px;
+cursor: pointer;
+}
+
+nav .logo{
+/* font-family: 'poppins' 'Satisfy', cursive; */
+font-family: 'Poppins', sans-serif;
+margin-top: 8px;
+color: #000;
+width: 105px;
+cursor: pointer; 
+
+}
+
+nav ul{
+color: #000;
+flex: 1;
+text-align: right;
+}
+
+nav ul li:hover{
+color:#6C63FF;
+
+}
+
+nav ul li{
+display: inline-block;
+list-style: none;
+margin: 0 20px;
+}
+.navbar{
+width: 85%;
+margin:auto;
+padding:35px 0;
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+.logo{
+width: 120px;
+cursor: pointer;
+}
+.navbar ul li{
+list-style: none;
+display: inline-block;
+margin: 0 20px;
+position: relative;
+}
+.navbar ul li a{
+text-decoration: none;
+text-transform: uppercase;
+}
+.navbar ul li::after{
+content: '';
+height: 3px;
+width: 0;
+background: #009688;
+position: absolute;
+left: 0;
+bottom: -10px;
+transition: 0.5s;
+}
+.navbar ul li:hover::after{
+width: 100%;
+}
+
+
+a{
+text-decoration: none;
+color: #000000;
+
+}
+a:hover{
+color:#6C63FF;
+}
+
+
+.main{
+    padding: 30px 150px;
+    /* background-color: #f00; */
+}
+
+.inner{
+    display: flex;
+    align-items: flex-start;
+}
+
+.main h4{
+    /* color: #969696; */
+    margin-left: 10px;
+}
+
+.main h5{
+    color: #6C63FF;
+    /* margin-left: 10px; */
+}
+
+.main-con{
+    background-color: #6C63FF;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    color: #f0f0f0;
+}
+
+.member-list{
+    background-color: #ffffff;
+    padding: 0px;
+    border-radius: 8px;
+    /* margin-top: 25px; */
+}
+.main .user{
+    margin-top: 5px;
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    /* display; */
+}
+
+.main .user-req{
+    margin-top: 5px;
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    /* display; */
+}
+
+.sec-1{
+    display: inline-block;
+    width: 65%;
+}
+
+.sec-2{
+    margin-left: 4%;
+    display: inline-block;
+    width: 30%;
+    padding: 0px;
+}
+.sec-2 .name{
+    align-items: center;
+    background-color: #ffffff;
+    padding: 6px;
+    width: 100%;
+    border-radius: 4px;
+    display: flex;
+    margin-top: 10px;
+    
+}
+.sec-1 .name{
+    align-items: center;
+    background-color: #ffffff;
+    padding: 6px;
+    width: 98%;
+    height: 40px;
+    border-radius: 4px;
+    display: flex;
+    margin-top: 10px;
+    
+}
+.sec-2 .name .rn{
+    color: #1a1a1a;
+    margin-left: 10px;
+    align-self: center;
+    align-content: center;
+    width:69%;
+    /* background-color: #009688; */
+
+}
+
+.ac{
+    margin-left: 5px;
+    background-color: rgb(51, 168, 27);
+    color: #fff;
+    border:none; 
+    padding:2px 7px;
+    border-radius:4px; 
+    display: inline-flex;
+}
+
+.dn{
+    margin-left: 5px;
+    background-color: #da443f;
+    color: #fff;
+    border:none; 
+    padding:2px 7px;
+    border-radius:4px; 
+    display: inline-flex;
+}
+.req{
+    width: 30%;
+    display: inline-block;
+   
+}
+
+.alert{
+    margin-left: 40px;
+    background-color: #586cc2;
+    color: #fff;
+    border:none; 
+    padding:2px 7px;
+    border-radius:4px; 
+    display: inline-flex;
+}
+
+.block{
+    margin-left: 5px;
+    background-color: #da443f;
+    color: #fff;
+    border:none; 
+    padding:2px 7px;
+    border-radius:4px; 
+    display: inline-flex;
+}
+
+.us-name{
+    color: #1a1a1a;
+    margin-left: 10px;
+    align-self: center;
+    align-content: center;
+    width:69%;
+}
+
+.ev{
+    width: 15%;
+    display: inline-block;
+}
+
+.View{
+    margin-left: 5px;
+    background-color: #3fda66;
+    color: #fff;
+    border:none; 
+    padding:2px 7px;
+    border-radius:4px; 
+    display: inline-flex;
+}
+
+.stats{
+    color: #6C63FF;
+    font-weight: bold;
+    height: 30px;
+    width: 150px;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    background-color: #f8f8f8;
+    color: #6C63FF;
+    border-color: #6C63FF;
+    /* border:10px;  */
+    padding:2px 7px;
+    border-radius:4px; 
+    display: inline-flex;
+}
+
     </style>
 </head>
 <body>
-    <h4>session key : {{session_key}}</h4>
-    <h5>Admin : {{ session_admin }}</h5>
-    <button onclick="getData()">get</button>
-    <div class="graph">
-        <!-- <canvas id="line-chart" width="600" height="350"></canvas> -->
-        <ul>
+    <form action="/session/" method="POST">
+    <input type="hidden" name="csrfmiddlewaretoken" value="TpxEDxI3of7N1nwdOUfkDtAvqF42xpFZbJRXCrmT3ABtj9lf9QwBp5zq2fWR2K0Q">
+    <div class="banner">
+        <nav>
+           
+            <img src="/static/img/target.png" class="menu-img"/>
+            <h1 class="logo">HAMS</h1>
+            <ul>
+                <li>About</li>
+                <li><a href="/contactus/">Contact Us</a></li>
+                <li><a href="/profile/">Profile</a></li>
+                <li style="color: rgb(102, 123, 245);"><a style="color: #f00;     font-weight: 600;" href="/logout/">Log Out</a></li>
+            </ul>
+        </nav>
+        <div class="main">
+            <h4>Session</h4>
+            <div class="main-con">
+                Key :     {{session_key}}<br>
+                Host : {{ host_name }} ({{session_admin}})
+            </div><br>
+            <div class="inner">
+                <div class="sec-1">
+                    <h4>Members</h4>
+                    <div class="member-list">
+                    <div class="user" id="us-list">
+                            <div class="name">
+                                <div class="us-name">Adarsh C V</div>
+                                <button class="stats">Attention Stats</button>
+                                <div class="ev">
+                                    <button class="alert">Alert </button>
+                                    <button class="block">Block</button>
+                                </div>
+                            </div>
+                            <div class="name">
+                                <div class="us-name">Adarsh jayachandran</div>
+                                <button class="stats">Attention Stats</button>
+                                <div class="ev">
+                                    <button class="alert">Alert </button>
+                                    <button class="block">Block</button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+               </div>
+    
+               <div class="sec-2">
+                <h4>join Requests</h4>
+                    <div class="member-list">
+                        <div class="user-req">
 
-        </ul>
+                            <div class="name">
+                                <div class="rn"><span>Aiswarya</span></div>
+                                <div class="req">
+                                    <button class="ac">Accept</button>
+                                <button class="dn">Deny</button>
+                                </div>
+                            </div>
+
+                            <div class="name">
+                                <div class="rn"><span>Reshmi</span></div>
+                                <div class="req">
+                                    <button class="ac">Accept</button>
+                                <button class="dn">Deny</button>
+                                </div>
+                            </div>
+
+                            <div class="name">
+                                <div class="rn"><span>Krishnaja</span></div>
+                                <div class="req">
+                                    <button class="ac">Accept</button>
+                                <button class="dn">Deny</button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
     </div>
-
+</form>
 <script
   src="https://code.jquery.com/jquery-3.5.0.min.js"
   integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
@@ -35,8 +393,19 @@
 
   // user list of current session
   function successFunction(value){
-    console.log(value)
-  }
+    // console.log(value['data'][0].user)
+    var user_list = document.getElementById("us-list");
+    user_list.innerHTML = ""
+    
+    for( i=0 ; i< value['data'].length;i++){
+        console.log(i)
+        var name = value['data'][i].user;
+        console.log(name)
+        var  item = '<div class="name"><div class="us-name">'+name+'</div><button class="stats">Attention Stats</button><div class="ev"><button class="alert">Alert </button><button class="block">Block</button></div></div>';
+        user_list.innerHTML += item
+    }
+        
+    }
 
     // const key = {{session_key}};
     // const user  = {{user}};

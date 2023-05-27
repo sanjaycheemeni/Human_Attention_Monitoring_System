@@ -206,7 +206,7 @@ def curSession(request):
 @login_required(login_url='/login/')
 def newSession(request):
     if request.is_ajax():
-        data = list(session_members.objects.values().filter(session_key=request.COOKIES['session_key']))
+        data = list(session_members.objects.values().filter(session_key='123456'))#request.COOKIES['session_key']))
         return JsonResponse({'data': data})
     
     session_key = random.randint(111111,999999)
