@@ -346,9 +346,9 @@ color:#6C63FF;
                <div class="sec-2">
                 <h4>join Requests</h4>
                     <div class="member-list">
-                        <div class="user-req">
+                        <div id="req-list" class="user-req">
 
-                            <div class="name">
+                            <!-- <div class="name">
                                 <div class="rn"><span>Aiswarya</span></div>
                                 <div class="req">
                                     <button class="ac">Accept</button>
@@ -370,7 +370,7 @@ color:#6C63FF;
                                     <button class="ac">Accept</button>
                                 <button class="dn">Deny</button>
                                 </div>
-                            </div>
+                            </div> -->
 
 
                         </div>
@@ -395,14 +395,27 @@ color:#6C63FF;
   function successFunction(value){
     // console.log(value['data'][0].user)
     var user_list = document.getElementById("us-list");
+    var req_list = document.getElementById("req-list");
+
     user_list.innerHTML = ""
+    req_list.innerHTML = ""
     
     for( i=0 ; i< value['data'].length;i++){
-        console.log(i)
+        // console.log(value)
         var name = value['data'][i].user;
-        console.log(name)
-        var  item = '<div class="name"><div class="us-name">'+name+'</div><button class="stats">Attention Stats</button><div class="ev"><button class="alert">Alert </button><button class="block">Block</button></div></div>';
-        user_list.innerHTML += item
+        console.log(value['data'][i].permission)
+        if(value['data'][i].permission == 'ACTIVE'){
+            var  item = '<div class="name"><div class="us-name">'+name+'</div><button class="stats">Attention Stats</button><div class="ev"><button class="alert">Alert </button><button class="block">Block</button></div></div>';
+            user_list.innerHTML += item
+        }else{
+            var req_item = ' <div class="name"><div class="rn"><span>'+name+'</span></div><div class="req"><button class="ac">Accept</button><button class="dn">Deny</button></div></div>'
+            req_list.innerHTML += req_item
+        }
+
+       
+
+        
+
     }
         
     }

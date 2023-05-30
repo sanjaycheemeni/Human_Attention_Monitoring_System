@@ -31,16 +31,27 @@ def checkCurrentSession(id):
 def current_milli_time():
     return round(time.time() * 1000)
 
-def isUSerHavePermission(user):
-    pass
 
 
 # check for session_key exist or not9999
 def isExistingSession(ses_key):
-    if ses_key == '123456':
-        return True
+    user_list = session_members.objects.values().filter(session_key=ses_key).filter(permission='ACTIVE')
+    ses_list = Session.objects.values().filter(session_key=ses_key).filter(end_time='99999999')
+    if ses_list.__len__()>0:
+            return True
     return False
 
+def isUSerHavePermission(key,usr_id):
+    user_list = session_members.objects.values().filter(session_key=key).filter(user=usr_id)
+    if user_list.__len__()>0:
+        if user_list.filter(permission='ACTIVE'):
+            return True
+    else:
+        data = session_members(session_key=key,user=usr_id,permission='INACTIVE')
+        data.save()
+        return False
+
+    
 
 ###
 
@@ -89,12 +100,14 @@ def loginPage(request):
 
 
 def userPage(request):
+    # key = request.POST.get('session_key')
+    # session_list = Session.objects.values().filter(session_key=key).filter(end_time='888888')
     context={}
     if request.method =='POST':
         context={}
         ses_key = request.POST.get('session_key')
         if isExistingSession(ses_key):
-            if isUSerHavePermission(request.user):
+            if isUSerHavePermission(ses_key,request.user.email):
                 context = {'session_key' : ses_key}
                 return render(request,'member-session.html',context)
         else:
@@ -102,6 +115,7 @@ def userPage(request):
     return render(request,'session.html',context)
 
 def home(request):
+    isExistingSession('279275')
     val = 'Sign In'
     link ='/login'
     col = '#6C63FF'
@@ -110,7 +124,7 @@ def home(request):
         link='/logout'
         col = '#ff1111'
     con = {'userStatus' :val,'link':link,'color':col}
-    checkCurrentSession(request.user.email)
+    # checkCurrentSession(request.user.email)
     return render(request,'home.html',context=con)
 
 def indexPage(request):
@@ -174,12 +188,12 @@ def mainPage(request):
     return render(request,'session-member.html')
 
 def contactUs(request):
-    if 'first_time' in request.COOKIES:
-        print(request.COOKIES['first_time'])
-    response = render(request,'test-ms.html',{})
-    response.set_cookie('first_time','yes',max_age=3600)
-    return response
-    # return render(request,'contact_us.html')
+    # if 'first_time' in request.COOKIES:
+    #     print(request.COOKIES['first_time'])
+    # response = render(request,'test-ms.html',{})
+    # response.set_cookie('first_time','yes',max_age=3600)
+    # return response
+    return render(request,'contact_us.html')
 
 
 
@@ -206,19 +220,20 @@ def curSession(request):
 @login_required(login_url='/login/')
 def newSession(request):
     if request.is_ajax():
-        data = list(session_members.objects.values().filter(session_key='123456'))#request.COOKIES['session_key']))
+        key = str(request.COOKIES['session_key'])
+        data = list(session_members.objects.values().filter(session_key=key))#.filter(session_key=key))
+        # data1 = list(sess)
         return JsonResponse({'data': data})
     
     session_key = random.randint(111111,999999)
     if 'in_a_session' in request.COOKIES:
-        print('test1')
         if request.COOKIES['in_a_session'] == 'TRUE':
-            print('test')
             session_key = request.COOKIES['session_key']
     
     admin = request.user
-    data = Session(session_key=session_key,host_id=request.user.email,host_name=request.user.username,end_time="99999999")
-    data.save()
+    if not isExistingSession(session_key):
+        data = Session(session_key=session_key,host_id=request.user.email,host_name=request.user.username,end_time="99999999")
+        data.save()
     # print("Data ;",data)
     context = { 'session_key' : session_key,
                 'session_admin':admin.username,
