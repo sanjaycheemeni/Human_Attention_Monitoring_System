@@ -22,7 +22,8 @@ def checkCurrentSession(id):
             return row['session_key']
         else:
             expired_sessions.append(row['session_key'])
-    as_member = session_members.objects.values().filter(user=id)
+    as_member = session_members.objects.values().filter(user_id
+    =id)
     for row in as_member:
         if id == row['user'] and row['session_key'] not in expired_sessions:
             return row['session_key']
@@ -41,13 +42,13 @@ def isExistingSession(ses_key):
             return True
     return False
 
-def isUSerHavePermission(key,usr_id):
-    user_list = session_members.objects.values().filter(session_key=key).filter(user=usr_id)
+def isUSerHavePermission(key,usr_id,user):
+    user_list = session_members.objects.values().filter(session_key=key).filter(user_id=usr_id)
     if user_list.__len__()>0:
         if user_list.filter(permission='ACTIVE'):
             return True
     else:
-        data = session_members(session_key=key,user=usr_id,permission='INACTIVE')
+        data = session_members(session_key=key,user=user,user_id=usr_id,permission='INACTIVE')
         data.save()
         return False
 
@@ -107,7 +108,7 @@ def userPage(request):
         context={}
         ses_key = request.POST.get('session_key')
         if isExistingSession(ses_key):
-            if isUSerHavePermission(ses_key,request.user.email):
+            if isUSerHavePermission(ses_key,request.user.email,request.user.username):
                 context = {'session_key' : ses_key}
                 return render(request,'member-session.html',context)
         else:
@@ -220,9 +221,19 @@ def curSession(request):
 @login_required(login_url='/login/')
 def newSession(request):
     if request.is_ajax():
+        print('testingggggg',request.POST.get('type'))
+        data = 'done'
         key = str(request.COOKIES['session_key'])
-        data = list(session_members.objects.values().filter(session_key=key))#.filter(session_key=key))
-        # data1 = list(sess)
+        if request.POST.get('type') == 'accept':
+            u = session_members.objects.get(session_key=key,user_id=request.POST.get('user'))
+            u.permission = 'ACTIVE'
+            u.save()
+        if request.POST.get('type') == 'deny':
+            u = session_members.objects.get(session_key=key,user_id=request.POST.get('user'))
+            u.permission = 'INACTIVE'
+            u.save()
+        if request.POST.get('type') == 'None':
+            data = list(session_members.objects.values().filter(session_key=key))#.filter(session_key=key))
         return JsonResponse({'data': data})
     
     session_key = random.randint(111111,999999)

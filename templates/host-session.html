@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -297,7 +298,7 @@ color:#6C63FF;
     </style>
 </head>
 <body>
-    <form action="/session/" method="POST">
+    <form  method="POST">
     <input type="hidden" name="csrfmiddlewaretoken" value="TpxEDxI3of7N1nwdOUfkDtAvqF42xpFZbJRXCrmT3ABtj9lf9QwBp5zq2fWR2K0Q">
     <div class="banner">
         <nav>
@@ -315,14 +316,15 @@ color:#6C63FF;
             <h4>Session</h4>
             <div class="main-con">
                 Key :     {{session_key}}<br>
-                Host : {{ host_name }} ({{session_admin}})
+                Host : {{ host_name }} ({{session_admin}}) <br>
+                <!-- <button type="button" onclick="acceptRequest('sanju@hams.com')">click me</button> -->
             </div><br>
             <div class="inner">
                 <div class="sec-1">
                     <h4>Members</h4>
                     <div class="member-list">
                     <div class="user" id="us-list">
-                            <div class="name">
+                            <!-- <div class="name">
                                 <div class="us-name">Adarsh C V</div>
                                 <button class="stats">Attention Stats</button>
                                 <div class="ev">
@@ -337,7 +339,7 @@ color:#6C63FF;
                                     <button class="alert">Alert </button>
                                     <button class="block">Block</button>
                                 </div>
-                            </div>
+                            </div> -->
                             
                         </div>
                     </div>
@@ -393,6 +395,7 @@ color:#6C63FF;
 
   // user list of current session
   function successFunction(value){
+    console.log(value['data'])
     // console.log(value['data'][0].user)
     var user_list = document.getElementById("us-list");
     var req_list = document.getElementById("req-list");
@@ -403,12 +406,15 @@ color:#6C63FF;
     for( i=0 ; i< value['data'].length;i++){
         // console.log(value)
         var name = value['data'][i].user;
+        var id = value['data'][i].user_id
         console.log(value['data'][i].permission)
         if(value['data'][i].permission == 'ACTIVE'){
-            var  item = '<div class="name"><div class="us-name">'+name+'</div><button class="stats">Attention Stats</button><div class="ev"><button class="alert">Alert </button><button class="block">Block</button></div></div>';
+            var  item = '<div class="name"><div class="us-name">'+name+'</div><button  class="stats">Attention Stats</button><div type="button" onclick="'+'acceptRequest(\''+id+'\')'+'" class="ev"><button type="button" onclick="'+'denyRequest(\''+id+'\')'+'" class="block">Remove</button></div></div>';
             user_list.innerHTML += item
         }else{
-            var req_item = ' <div class="name"><div class="rn"><span>'+name+'</span></div><div class="req"><button class="ac">Accept</button><button class="dn">Deny</button></div></div>'
+
+            var req_item = ' <div class="name"><div class="rn"><span>'+name+'</span></div><div class="req"><button type="button" onclick="'+'acceptRequest(\''+id+'\')'+'" class="ac">Accept</button><button class="dn">Deny</button></div></div>'
+            console.log(req_item)
             req_list.innerHTML += req_item
         }
 
@@ -418,6 +424,33 @@ color:#6C63FF;
 
     }
         
+    }
+    function acceptRequest(user_id){
+        // console.log('ddd')
+        data = 'type=accept&user='+user_id+''
+        $.ajax({
+            headers:{'X-CSRFToken':'{{ csrf_token }}'},
+            type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+            url         : '{% url 'new' %}', // the url where we want to POST
+            data        : data, // our form data
+            dataType    : 'json', // what type of data do we expect back from the server
+            // success     : successFunction
+        });
+
+    }
+
+    function denyRequest(user_id){
+        // console.log('ddd')
+        data = 'type=deny&user='+user_id+''
+        $.ajax({
+            headers:{'X-CSRFToken':'{{ csrf_token }}'},
+            type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+            url         : '{% url 'new' %}', // the url where we want to POST
+            data        : data, // our form data
+            dataType    : 'json', // what type of data do we expect back from the server
+            // success     : successFunction
+        });
+
     }
 
     // const key = {{session_key}};
@@ -438,11 +471,12 @@ color:#6C63FF;
 
  
     function getData(){
+        data = 'type=None&user=none'
         $.ajax({
             headers:{'X-CSRFToken':'{{ csrf_token }}'},
             type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
             url         : '{% url 'new' %}', // the url where we want to POST
-            // data        : , // our form data
+            data        : data, // our form data
             dataType    : 'json', // what type of data do we expect back from the server
             success     : successFunction
         });

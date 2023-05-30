@@ -26,6 +26,6 @@ class sessionLog(models.Model):
 
 class session_members(models.Model):
     session_key = models.CharField(max_length=8)
-    # id = models.CharField(max_length=60)
+    user_id = models.CharField(max_length=60)
     user = models.CharField(max_length=60)
     permission = models.CharField(max_length=60)
